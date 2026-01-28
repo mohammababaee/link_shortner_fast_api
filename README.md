@@ -53,7 +53,7 @@ alembic upgrade head
 ### 4. Run the app
 
 ```bash
-uvicorn app.main:app --reload
+docker-compose up
 ```
 
 Open your browser at: [http://localhost:8000/docs](http://localhost:8000/docs)
@@ -78,27 +78,3 @@ app/
 ├── middleware/    # Logging or custom middleware
 ├── main.py        # FastAPI app entrypoint
 ```
-
----
-
-## 📌 Notes for Interviewers
-
-- The implementation is scoped to take ~1 working day.
-- Logging is implemented using a custom middleware.
-- Visit tracking is minimal; can be extended to store timestamps/user-agent/etc.
-- Add any modules, files, or dependencies you find necessary.
-- In short: you’re free to treat this as a real project.
-- For production: add rate limiting, background jobs for analytics, async DB access, etc.
-- We're more interested in how you think and structure your work than in having one "correct" answer. Good luck, and
-  enjoy the process!
-
----
-
-## 🧠 Bonus Ideas (if you have time)
-
-- Custom short code support
-- Expiration time for URLs
-- Admin dashboard to view top URLs
-- Dockerfile & deployment configs
-
----
