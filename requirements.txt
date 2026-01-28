@@ -1,0 +1,10 @@
+fastapi
+pydantic-settings
+sqlmodel
+asyncpg
+redis
+sqlalchemy
+alembic
+uvicorn
+pytest
+psycopg2-binary
