@@ -2,6 +2,8 @@ from sqlmodel import Session
 from sqlmodel import select
 from app.db.models import URLStats, ShortURL
 from datetime import datetime
+from sqlalchemy import update
+from datetime import datetime, timezone
 
 
 class URLStatsRepository:
@@ -20,11 +22,18 @@ class URLStatsRepository:
 
     @staticmethod
     async def increment_visit_count(session: Session, short_code: str):
-        stats = await URLStatsRepository.get_by_short_code(session, short_code)
-        if stats:
-            stats.visit_count += 1
-            stats.last_visited_at = datetime.now()
+        stmt = (
+            update(URLStats)
+            .where(URLStats.short_code == short_code)
+            .values(
+                visit_count=URLStats.visit_count + 1,
+                last_visited_at=datetime.now()
+            )
+        )
+        result = await session.exec(stmt)
+        await session.commit()
+        
+        if result.rowcount == 0:
+            new_stats = URLStats(short_code=short_code, visit_count=1, last_visited_at=datetime.now())
+            session.add(new_stats)
             await session.commit()
-        else:
-            new_stats = URLStats(short_code=short_code, visit_count=1)
-            await URLStatsRepository.create(session, new_stats)
